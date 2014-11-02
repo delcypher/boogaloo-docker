@@ -23,4 +23,4 @@ image and give you shell access to it.
 $ docker run -ti --rm boogaloo /bin/bash
 ```
 
-The boogaloo tool is available in PATH in the containerl
+The boogaloo tool is available in PATH in the container.
