@@ -13,6 +13,13 @@ Building
 $ docker build -t "boogaloo" .
 ```
 
+Alternatively you can obtain the pre-built image from the [Docker Hub](https://registry.hub.docker.com/u/delcypher/boogaloo-docker/)
+by running
+
+```
+$ docker pull delcypher/boogaloo-docker
+```
+
 Running
 -------
 
