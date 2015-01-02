@@ -2,9 +2,8 @@ FROM ubuntu:14.04
 MAINTAINER Dan Liew <daniel.liew@imperial.ac.uk>
 
 # Add PPA for Z3 4.3.1
-# FIXME: We shouldn't be using the GPUVerify PPA for this...
 RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com C504E590 && \
-    echo 'deb http://ppa.launchpad.net/delcypher/gpuverify-smt/ubuntu trusty main' > /etc/apt/sources.list.d/smt.list && \
+    echo 'deb http://ppa.launchpad.net/delcypher/boogaloo-smt/ubuntu trusty main' > /etc/apt/sources.list.d/smt.list && \
     apt-get update
 
 # Setup Z3
