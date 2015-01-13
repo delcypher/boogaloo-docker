@@ -39,7 +39,7 @@ RUN cd /home/boogaloo/z3-haskell/ && \
 # Build Boogaloo
 RUN hg clone https://bitbucket.org/nadiapolikarpova/boogaloo && \
     cd boogaloo && \
-    hg update 2ba7d179dea00e33410762b155504ec36381cec3 && \
+    hg update 8077c1ad47cd73703a434e289a8adeba360b5233 && \
     cabal install
 
 # Run Boogaloo tests
