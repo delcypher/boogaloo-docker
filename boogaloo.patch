@@ -1,0 +1,31 @@
+diff -r f8ac7985ff66 language-boogie.cabal
+--- a/language-boogie.cabal     Sat Feb 21 22:25:18 2015 -0500
++++ b/language-boogie.cabal     Sun Feb 22 11:47:51 2015 +0000
+@@ -62,7 +62,7 @@
+       syb >=0.1,
+       lens ==3.7.*,
+       logict,
+-      z3 >=0.3
++      z3 == 4.0.0
+     
+ executable boogaloo
+   main-is:             Boogaloo.hs
+@@ -81,7 +81,7 @@
+       syb >=0.1,
+       lens ==3.7.*,
+       logict,
+-      z3 >=0.3,
++      z3 == 4.0.0,
+       language-boogie ==0.2.*,
+       cmdargs ==0.10.*,
+       time ==1.4.*,
+@@ -104,7 +104,7 @@
+       random ==1.0.*,
+       syb >=0.1,
+       lens ==3.7.*,
+-      z3 >=0.3,
++      z3 ==4.0.0,
+       language-boogie ==0.2.*,
+       filepath ==1.3.*,
+       html ==1.*,
+
