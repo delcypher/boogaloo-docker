@@ -1,0 +1,50 @@
+# HG changeset patch
+# User Nadia Polikarpova <nadia.polikarpova@gmail.com>
+# Date 1424663683 18000
+# Node ID c11cc364a7f60baa36bfb77a39733a7a3957a692
+# Parent  f8ac7985ff661278435c9cabc5ca5dce749c50bb
+Bugfix: builtin functions with nameless arguments.
+
+diff --git a/Language/Boogie/AST.hs b/Language/Boogie/AST.hs
+--- a/Language/Boogie/AST.hs
++++ b/Language/Boogie/AST.hs
+@@ -261,8 +261,7 @@
+ type FArg = (Maybe Id, Type)
+ 
+ -- | Argument name used for unnamed function arguments
+--- (does not matter, because it is never referred to from function's body)  
+-dummyFArg = ""
++dummyFArg = "arg"
+ 
+ -- | Parent edge of a constant declaration (uniqueness, parent name)
+ type ParentEdge = (Bool, Id)
+diff --git a/Language/Boogie/Interpreter.hs b/Language/Boogie/Interpreter.hs
+--- a/Language/Boogie/Interpreter.hs
++++ b/Language/Boogie/Interpreter.hs
+@@ -1208,13 +1208,14 @@
+   sig@(MapType tv argTypes retType) <- funSig name <$> use envTypeContext
+   let constName = functionConst name  
+   envTypeContext %= \tc -> tc { ctxConstants = M.insert constName sig (ctxConstants tc) }    
+-  let formals = zip (map formalName argNames) argTypes
++  let formals = zip formalNames argTypes
+   case getBody of
+     Nothing -> return ()
+     Just body -> envFunctions %= M.insert name (inheritPos (Quantified Lambda tv formals) body)
+   where        
+-    formalName Nothing = dummyFArg 
+-    formalName (Just n) = n    
++    formalName Nothing i = dummyFArg ++ show i
++    formalName (Just n) _ = n
++    formalNames = zipWith formalName argNames [1 .. (length argNames)]
+     
+     getBody = case mBody of
+       Nothing -> builtInBody
+@@ -1235,7 +1236,7 @@
+                     modExpr
+                 else Nothing)
+       ]
+-    formalE i = gen $ Var $ (map formalName argNames) !! i        
++    formalE i = gen $ Var $ formalNames !! i        
+     
+ processProcedureBody name pos args rets body = do
+   tc <- use envTypeContext

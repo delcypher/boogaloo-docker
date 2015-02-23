@@ -36,10 +36,22 @@ RUN cd /home/boogaloo/z3-haskell/ && \
     hg import --no-commit hack_mtl_version.patch && \
     cabal install
 
-# Build Boogaloo
+# Build Boogaloo and patch it
+#
 RUN hg clone https://bitbucket.org/nadiapolikarpova/boogaloo && \
     cd boogaloo && \
-    hg update 8077c1ad47cd73703a434e289a8adeba360b5233 && \
+    hg update 8077c1ad47cd73703a434e289a8adeba360b5233
+
+# This patch is based on f8ac7985ff661278435c9cabc5ca5dce749c50bb
+# but with the Z3 changes removed because they cause segfaults
+ADD builtin_attribute_boogaloo.patch /home/boogaloo/boogaloo/
+
+# This patch is straight from the boogaloo repo and it fixes a bug handling
+# functions with nameless arguments
+ADD c11cc364a7f60baa36bfb77a39733a7a3957a692.patch /home/boogaloo/boogaloo/
+
+RUN cd boogaloo/ && \
+    hg import --no-commit builtin_attribute_boogaloo.patch c11cc364a7f60baa36bfb77a39733a7a3957a692.patch && \
     cabal install
 
 # Run Boogaloo tests
